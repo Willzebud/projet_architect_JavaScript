@@ -9,29 +9,32 @@
     <link rel="stylesheet" href="./assets/login-style.css">
 </head>
 <body>
-    <header>
-        <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">projets</a></li>
-                <li>contact</li>
-                <li><a href="login.html">login</a></li>
-                <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div id="login-container">
-            <form id="login-form">
-                <label for="adresse-mail">E-mail</label>
-                <input type="text" id="email" name="email">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password">
-                <button type="submit">Se connecter</button>
-            </form>
-            <a href="#" class="link">Mot de passse oublié</a>
-        </div>
-    </main>
+    <div class="body-contenu-login">
+        <header>
+            <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">projets</a></li>
+                    <li>contact</li>
+                    <li><a href="login.html">login</a></li>
+                    <li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div id="login">
+                <h2>Log in</h2>
+                <form action="#" method="post">
+                    <label for="adresse-mail">E-mail</label>
+                    <input type="text" id="email" name="email">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password">
+                    <input type="submit" value="Se connecter">
+                    <a href="#" class="link">Mot de passse oublié</a>
+                </form>
+            </div>
+        </main>
+    </div>
     <footer>
 		<div class="footer-block">
 			<ul>
