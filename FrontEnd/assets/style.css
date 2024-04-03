@@ -288,6 +288,51 @@ body header {
 	margin-bottom: 100px;
 }
 
+/* Bannière */
+.edit-mode-banner {
+	display: none;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.edit-mode, .edit-mode-banner i {
+    color: white; /* S'assure que le texte et l'icône sont blancs */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.edit-mode-icon {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.text-banner {
+    margin-left: 8px;
+	font-family: 'Work Sans';
+	font-size: 16px;
+}
+
+.edit-mode-banner i, .edit-mode-banner .text-banner {
+    vertical-align: middle; /* Centre verticalement les éléments */
+}
+
+.edit-mode-inline .fa-regular {
+    font-size: 15.58px; /* Définit la taille de l'icône */
+    height: 15.58px; /* Hauteur de l'icône, bien que font-size devrait suffire pour FontAwesome */
+    width: 15.58px; /* Largeur de l'icône, pour assurer la cohérence dans certains cas */
+    vertical-align: middle;
+	margin-left: 15px;
+	margin-right: 8px;
+}
+
+.edit-mode-inline .text-banner-inline {
+    font-size: 14px; /* Définit la taille du texte */
+    vertical-align: middle;
+	font-weight: 400;
+}
 
 
 

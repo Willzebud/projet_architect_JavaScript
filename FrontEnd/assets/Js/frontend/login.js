@@ -35,6 +35,7 @@ function getWorks(email, password) {
     .then(data => {
         console.log("Connexion réussie", data); // Confirme la réussite de la connexion
         localStorage.setItem("token", data.token);
+        localStorage.setItem("estConnecte", "true");
         window.location.href = "index.html"; // Redirige vers la page d'accueil si la connexion est réussie
     })
     .catch(error => {
