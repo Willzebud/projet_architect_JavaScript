@@ -1,29 +1,27 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var loginForm = document.querySelector("#login form"); // Sélectionne le formulaire dans le div #login
+    var loginForm = document.querySelector("#login form");
 
     loginForm.addEventListener("submit", function(e) {
-        e.preventDefault(); // Empêche le comportement de soumission par défaut du formulaire
+        e.preventDefault();
 
-        console.log("Tentative de connexion"); // Pour vérifier que l'événement submit est bien capturé
+        console.log("Tentative de connexion");
 
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
 
-        getWorks(email, password); // Passe les valeurs email et password à la fonction
+        getWorks(email, password);
     });
 });
 
 function getWorks(email, password) {
-    console.log("Envoi des données", email, password); // Pour vérifier que les données sont bien envoyées
-
     fetch("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            email: email, // Utilisez le paramètre email
-            password: password // Utilisez le paramètre password
+            email: email,
+            password: password
         })
     })
     .then(response => {
@@ -33,14 +31,14 @@ function getWorks(email, password) {
         throw new Error('Erreur dans l\'identifiant ou le mot de passe.');
     })
     .then(data => {
-        console.log("Connexion réussie", data); // Confirme la réussite de la connexion
+        console.log("Connexion réussie", data);
         localStorage.setItem("token", data.token);
         localStorage.setItem("estConnecte", "true");
-        window.location.href = "index.html"; // Redirige vers la page d'accueil si la connexion est réussie
+        window.location.href = "index.html";
     })
     .catch(error => {
         console.error("Error:", error);
-        alert(error.message); // Affiche un message d'erreur
+        alert(error.message);
     });
 }
 

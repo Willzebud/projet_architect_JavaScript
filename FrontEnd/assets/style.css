@@ -236,7 +236,7 @@ footer ul {
 	text-decoration: none;
 }
 
-/****** logn.html ***********/
+/****** login.html ***********/
 
 #login {
 	width: 50%;
@@ -289,7 +289,7 @@ body header {
 }
 
 /* Bannière */
-.edit-mode-banner {
+.mode-banner {
 	display: none;
     background-color: black;
     color: white;
@@ -298,8 +298,8 @@ body header {
     cursor: pointer;
 }
 
-.edit-mode, .edit-mode-banner i {
-    color: white; /* S'assure que le texte et l'icône sont blancs */
+.edit-mode, .mode-banner i {
+    color: white;
     display: inline-block;
     vertical-align: middle;
 }
@@ -315,21 +315,21 @@ body header {
 	font-size: 16px;
 }
 
-.edit-mode-banner i, .edit-mode-banner .text-banner {
-    vertical-align: middle; /* Centre verticalement les éléments */
+.mode-banner i, .mode-banner .text-banner {
+    vertical-align: middle;
 }
 
 .edit-mode-inline .fa-regular {
-    font-size: 15.58px; /* Définit la taille de l'icône */
-    height: 15.58px; /* Hauteur de l'icône, bien que font-size devrait suffire pour FontAwesome */
-    width: 15.58px; /* Largeur de l'icône, pour assurer la cohérence dans certains cas */
+    font-size: 15.58px;
+    height: 15.58px;
+    width: 15.58px;
     vertical-align: middle;
 	margin-left: 15px;
 	margin-right: 8px;
 }
 
 .edit-mode-inline .text-banner-inline {
-    font-size: 14px; /* Définit la taille du texte */
+    font-size: 14px;
     vertical-align: middle;
 	font-weight: 400;
 }
