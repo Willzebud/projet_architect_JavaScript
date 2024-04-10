@@ -10,11 +10,6 @@ async function recupererCategories() {
     }
 }
 
-const projetsFiltres = [
-    { id: "1", name: "Objets" },
-    { id: "2", name: "Appartements" },
-    { id: "3", name: "Hotels & restaurants" },
-];
 
 // Fonction pour créer le menu de filtres basé sur les catégories récupérées
 function creerMenuFiltres(categories) {

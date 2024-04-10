@@ -12,7 +12,7 @@ async function recupererTravaux() {
   }
 }
 
-const travaux = [
+/* let travaux = [
   { imageUrl: "assets/images/abajour-tahina.png", title: "Abajour Tahina", categorie: "Objets" },
   { imageUrl: "assets/images/appartement-paris-v.png", title: "Appartement Paris V", categorie: "Appartements" },
   { imageUrl: "assets/images/restaurant-sushisen-londres.png", title: "Restaurant Sushisen - Londres", categorie: "Hotels & restaurants" },
@@ -24,9 +24,11 @@ const travaux = [
   { imageUrl: "assets/images/appartement-paris-xviii.png", title: "Appartement Paris XVIII", categorie: "Appartements" },
   { imageUrl: "assets/images/bar-lullaby-paris.png", title: "Lullaby” - Paris", categorie: "Hotels & restaurants" },
   { imageUrl: "assets/images/hotel-first-arte-new-delhi.png", title: "Hotel First Arte - New Delhi", categorie: "Hotels & restaurants" },
-];
+]; */
+
 
 function ajouterTravauxALaGalerie(travaux) {
+  console.log(travaux);
   const galerie = document.getElementById('gallery-container'); 
   let htmlGalerie = '';
 
@@ -42,4 +44,4 @@ function ajouterTravauxALaGalerie(travaux) {
   galerie.innerHTML = htmlGalerie;
 }
 
-ajouterTravauxALaGalerie(travaux);
+recupererTravaux();

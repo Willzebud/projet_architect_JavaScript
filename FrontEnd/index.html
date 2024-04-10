@@ -10,8 +10,8 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-	<script async src="assets/Js/frontend/project.js"></script>
-	<script async src="assets/Js/frontend/filtre.js"></script>
+	<script defer src="assets/Js/frontend/project.js"></script>
+	<script defer src="assets/Js/frontend/filtre.js"></script>
 	<script defer src="assets/Js/frontend/login.js"></script>
 </head>
 <body>
@@ -83,20 +83,5 @@
 			<input type="submit" value="Ajouter une photo">
 		</div>
 	</aside>
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-    		var estConnecte = localStorage.getItem("estConnecte");
-    		var banner = document.getElementById("banner");
-    		var editModeInline = document.querySelector(".edit-mode-inline");
-
-    		if(estConnecte === "true") {
-        		banner.style.display = "block";
-        		editModeInline.style.display = "inline";
-    		} else {
-        		banner.style.display = "none";
-        		editModeInline.style.display = "none";
-    		}
-		});
-	</script>
 </body>
 </html>
