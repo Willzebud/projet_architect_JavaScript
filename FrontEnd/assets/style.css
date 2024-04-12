@@ -287,6 +287,10 @@ body .body-contenu-login {
 body header {
 	margin-bottom: 100px;
 }
+.error {
+    border: 2px solid red;
+    background-color: #ffcccc;
+}
 
 /* Bannière */
 .mode-banner {
@@ -332,6 +336,15 @@ body header {
     font-size: 14px;
     vertical-align: middle;
 	font-weight: 400;
+}
+
+/* Modal */
+
+.modal {
+	position: fixed;
+	width: 630px;
+	height: 688px;
+	background-color: white;
 }
 
 

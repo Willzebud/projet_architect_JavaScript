@@ -1,42 +1,34 @@
-// Fonction pour récupérer les travaux de l'architecte depuis une API
-async function recupererTravaux() {
+let worksArray = [];
+
+async function getWorksAndCategories() {
   try {
-    const response = await fetch('http://localhost:5678/api/works');
-    if (!response.ok) {
-      throw new Error('Problème lors de la récupération des travaux: ' + response.statusText);
+    const responseWorks = await fetch('http://localhost:5678/api/works');
+    if (!responseWorks.ok) {
+      throw new Error('Problème lors de la récupération des travaux: ' + responseWorks.statusText);
     }
-    const data = await response.json();
-    ajouterTravauxALaGalerie(data);
+    const works = await responseWorks.json();
+    worksArray = works;
+    ajouterWorksArray(works);
+
+    const responseCategories = await fetch('http://localhost:5678/api/categories');
+    const categoriesData = await responseCategories.json();
+    const categories = new Set(categoriesData.map(categorie => categorie.name));
+    creerFilterMenu(categories);
   } catch (error) {
-    console.error('Erreur lors de la récupération des travaux:', error);
+    console.error('Erreur lors de la récupération des données:', error);
   }
 }
 
-/* let travaux = [
-  { imageUrl: "assets/images/abajour-tahina.png", title: "Abajour Tahina", categorie: "Objets" },
-  { imageUrl: "assets/images/appartement-paris-v.png", title: "Appartement Paris V", categorie: "Appartements" },
-  { imageUrl: "assets/images/restaurant-sushisen-londres.png", title: "Restaurant Sushisen - Londres", categorie: "Hotels & restaurants" },
-  { imageUrl: "assets/images/la-balisiere.png", title: "La Balisiere” - Port Louis", categorie: "Appartements" },
-  { imageUrl: "assets/images/structures-thermopolis.png", title: "Structures Thermopolis", categorie: "Objets" },
-  { imageUrl: "assets/images/appartement-paris-x.png", title: "Appartement Paris X", categorie: "Appartements" },
-  { imageUrl: "assets/images/le-coteau-cassis.png", title: "Pavillon “Le coteau” - Cassis", categorie: "Appartements" },
-  { imageUrl: "assets/images/villa-ferneze.png", title: "Villa Ferneze - Isola d’Elba", categorie: "Appartements" },
-  { imageUrl: "assets/images/appartement-paris-xviii.png", title: "Appartement Paris XVIII", categorie: "Appartements" },
-  { imageUrl: "assets/images/bar-lullaby-paris.png", title: "Lullaby” - Paris", categorie: "Hotels & restaurants" },
-  { imageUrl: "assets/images/hotel-first-arte-new-delhi.png", title: "Hotel First Arte - New Delhi", categorie: "Hotels & restaurants" },
-]; */
-
-
-function ajouterTravauxALaGalerie(travaux) {
-  console.log(travaux);
+function ajouterWorksArray(works) {
+  console.log(works);
   const galerie = document.getElementById('gallery-container'); 
   let htmlGalerie = '';
 
-  travaux.forEach(travail => {
+  works.forEach(work => {
     htmlGalerie += `
       <figure>
-        <img src="${travail.imageUrl}" alt="${travail.title}">
-        <figcaption>${travail.title}</figcaption>
+        <img src="${work.imageUrl}" alt="${work.title}">
+        <figcaption>${work.title}</figcaption>
       </figure>
     `;
   });
@@ -44,4 +36,37 @@ function ajouterTravauxALaGalerie(travaux) {
   galerie.innerHTML = htmlGalerie;
 }
 
-recupererTravaux();
+function creerFilterMenu(categories) {
+  const filterMenu = document.getElementById('menu-filtres');
+  filterMenu.innerHTML = ''; // Efface les boutons précédents pour éviter les doublons
+
+  const boutonTous = document.createElement('button');
+  boutonTous.innerText = "Tous";
+  boutonTous.classList.add('style-menu', 'bouton-filtre');
+  boutonTous.addEventListener('click', (event) => filterProjectsCategorie("Tous", event));
+  filterMenu.appendChild(boutonTous);
+
+  categories.forEach(categorie => {
+    const bouton = document.createElement('button');
+    bouton.innerText = categorie;
+    bouton.classList.add('style-menu', 'bouton-filtre');
+    bouton.addEventListener('click', (event) => filterProjectsCategorie(categorie, event));
+    filterMenu.appendChild(bouton);
+  });
+}
+
+function filterProjectsCategorie(categorieSelectionnee, event) {
+  const filteredWorks = worksArray.filter(work => {
+    // Utilisation de work.category.name pour la correspondance
+    return categorieSelectionnee === "Tous" || work.category.name === categorieSelectionnee;
+  });
+
+  ajouterWorksArray(filteredWorks);
+
+  document.querySelectorAll('.bouton-filtre').forEach(bouton => {
+    bouton.classList.remove('bouton-filtre-actif');
+  });
+  event.currentTarget.classList.add('bouton-filtre-actif');
+}
+
+getWorksAndCategories();
