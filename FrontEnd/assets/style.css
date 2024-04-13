@@ -340,12 +340,90 @@ body header {
 
 /* Modal */
 
-.modal {
+/*.modal-overlay {
 	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+  }
+  
+
+  .modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	width: 630px;
 	height: 688px;
 	background-color: white;
-}
+	z-index: 1001;
+	padding: 20px;;
+  }
+  
+  
+  .modal-contenu {
+	position: relative;
+  }
+  
+  
+  .fa-xmark {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	cursor: pointer;
+	color: #333;
+  }
+  
+  
+  .modal .gallery {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+  }
+  
+  .modal .gallery img {
+	margin-bottom: 10px;
+  }
+  
+  
+  .modal .fa-trash-can {
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	cursor: pointer;
+	background-color: white;
+  }
+  
+  
+  .modal input[type="submit"] {
+	display: block;
+	margin: 20px auto;
+	padding: 10px 20px;
+	font-family: 'Syne', sans-serif;
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	border: none;
+	border-radius: 50px;
+	cursor: pointer;
+  }
+  
+  
+  .ligne-style {
+	border-top: 1px solid #eee;
+	margin: 20px 0;
+  }
+  
+  
+  .modal p {
+	text-align: center;
+	font-size: 1.2rem;
+	margin: 20px 0;
+  }
+
 
 
 

@@ -21,7 +21,7 @@ async function getWorksAndCategories() {
 
 function ajouterWorksArray(works) {
   console.log(works);
-  const galerie = document.getElementById('gallery-container'); 
+  const galerie = document.getElementById('gallery-container');
   let htmlGalerie = '';
 
   works.forEach(work => {
@@ -36,9 +36,28 @@ function ajouterWorksArray(works) {
   galerie.innerHTML = htmlGalerie;
 }
 
+// Page sans modale - Initialize + ajouterWorksArray -> Page normale on voit la gallery
+// Je clique sur ouvrir la modale
+// J'ajoute la modale à mon DOM
+// J'appelle addModalWorksArray
+function addModalWorksArray(work) {
+  const modalGalerie = document.getElementById('modal-gallery-container');
+  let htmlGalerie = '';
+
+  works.forEach(work => {
+    htmlGalerie += `
+      <figure>
+        <img src="${work.imageUrl}" alt="${work.title}">
+      </figure>
+    `;
+  });
+
+  modalGalerie.innerHTML = htmlGalerie;
+}
+
 function creerFilterMenu(categories) {
   const filterMenu = document.getElementById('menu-filtres');
-  filterMenu.innerHTML = ''; // Efface les boutons précédents pour éviter les doublons
+  filterMenu.innerHTML = ''; 
 
   const boutonTous = document.createElement('button');
   boutonTous.innerText = "Tous";
@@ -57,7 +76,7 @@ function creerFilterMenu(categories) {
 
 function filterProjectsCategorie(categorieSelectionnee, event) {
   const filteredWorks = worksArray.filter(work => {
-    // Utilisation de work.category.name pour la correspondance
+    
     return categorieSelectionnee === "Tous" || work.category.name === categorieSelectionnee;
   });
 
