@@ -221,6 +221,7 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
+
 .footer-block {
 	width: 100%;
 	height: 60px;
@@ -340,7 +341,7 @@ body header {
 
 /* Modal */
 
-/*.modal-overlay {
+.modal-overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -348,57 +349,89 @@ body header {
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
 	z-index: 1000;
-  }
+}
   
 
-  .modal {
+.modal {
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 630px;
-	height: 688px;
+	width: 530px;
+	height: auto;
 	background-color: white;
 	z-index: 1001;
 	padding: 20px;;
-  }
+}
+
+.modal, .modal-overlay {
+	display: none;
+}
   
   
-  .modal-contenu {
+.modal-contenu {
 	position: relative;
-  }
+}
   
   
-  .fa-xmark {
+.fa-xmark {
 	position: absolute;
 	top: 20px;
 	right: 20px;
 	cursor: pointer;
 	color: #333;
-  }
+}
   
   
-  .modal .gallery {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-  }
+.modal-gallery {
+	position: relative;
+	display: grid;
+  	grid-template-columns: repeat(5, 1fr);
+  	grid-gap: 10px;
+}
   
-  .modal .gallery img {
-	margin-bottom: 10px;
-  }
-  
-  
-  .modal .fa-trash-can {
+.modal-gallery img {
+	width: 100%;
+	height: auto;
+}
+
+.gallery figure, .modal-gallery figure {
+	position: relative; 
+}
+
+.delete-icon-container {
 	position: absolute;
-	top: -10px;
-	right: -10px;
-	cursor: pointer;
-	background-color: white;
-  }
+	top: 10px; 
+	right: 10px;
+	background-color: black;
+	width: 20px; 
+	height: 20px; 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10%;
+	z-index: 2;
+}
   
+.fa-trash-can {
+	color: white;
+}
+
+
+.add-photo-button{
+	display: flex;
+	justify-content: center;
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 2em auto ;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+}
   
-  .modal input[type="submit"] {
+.modal input[type="submit"] {
 	display: block;
 	margin: 20px auto;
 	padding: 10px 20px;
@@ -409,20 +442,20 @@ body header {
 	border: none;
 	border-radius: 50px;
 	cursor: pointer;
-  }
+}
   
   
-  .ligne-style {
+.ligne-style {
 	border-top: 1px solid #eee;
 	margin: 20px 0;
-  }
+}
   
   
-  .modal p {
+.modal p {
 	text-align: center;
 	font-size: 1.2rem;
 	margin: 20px 0;
-  }
+}
 
 
 

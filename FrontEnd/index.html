@@ -11,7 +11,6 @@
 	<link rel="stylesheet" href="./assets/style.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 	<script src="assets/Js/frontend/project.js" defer></script>
-	<script src="assets/Js/frontend/filtre.js" defer></script>
 	<script src="assets/Js/frontend/login.js" defer></script>
 </head>
 <body>
@@ -35,15 +34,31 @@
 		<main>
 			<div id="modal-overlay" class="modal-overlay"></div>
 			<div id="modal1" class="modal">
-				<div class="modal-contenu">
-					<i class="fa-solid fa-xmark" aria-hidden="true"></i>
-					<p>Galerie photo</p>
-					<i class="fa-solid fa-trash-can" aria-hidden="true"></i>
-					<div id="modal-gallery-container" class="modal-gallery"></div>
-					<div class="ligne-style"></div>
-					<input type="submit" value="Ajouter une photo">
+				<div class="modal-content">
+				  	<span class="close-modal"><i class="fa-solid fa-xmark"></i></span>
+				  	<p>Galerie photo</p>
+				  	<div id="modal-gallery-container" class="modal-gallery"></div>
+				  	<div class="line-style"></div>
+				  	<button class="add-photo-button">Ajouter une photo</button>
 				</div>
 			</div>
+			<!-- <div id="modal2" class="modal">
+				<div class="modal-content">
+					<span class="back-modal"><i class="fa-solid fa-arrow-left"></i></span>
+				  	<span class="close-modal"><i class="fa-solid fa-xmark"></i></span>
+				  	<p>Ajout photo</p>
+				  	<form id="add-photo-form">
+						<div class="add-photo-container">
+					  		<input type="file" id="photo-upload" name="photo-upload">
+					  		<label for="photo-upload" class="photo-upload-label">+ Ajouter photo</label>
+						</div>
+						<input type="text" id="photo-title" name="photo-title" placeholder="Titre">
+						<select id="photo-category" name="photo-category">
+						</select>
+						<button type="submit" class="validate-add-photo" disabled>Valider</button>
+				  	</form>
+				</div>
+			</div> -->
 			<section id="introduction">
 				<figure>
 					<img src="./assets/images/sophie-bluel.png" alt="">
