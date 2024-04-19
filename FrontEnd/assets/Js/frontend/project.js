@@ -3,9 +3,13 @@ const galleryContainer = document.getElementById('gallery-container');
 const modalGalleryContainer = document.getElementById('modal-gallery-container');
 const modal = document.getElementById('modal1');
 const modalOverlay = document.getElementById('modal-overlay');
-const closeModalIcon = document.querySelector('.close-modal');
 const openModalButtons = document.querySelectorAll('.edit-mode, .edit-mode-inline');
-
+const modal2 = document.getElementById('modal2');
+const addPhotoButton = document.querySelector('.add-photo-button');
+const validateButton = document.querySelector('#modal2 .validate-add-photo');
+const photoUploadInput = document.getElementById('photo-upload');
+const photoTitleInput = document.getElementById('photo-title');
+const photoCategorySelect = document.getElementById('photo-category');
 
 document.addEventListener('DOMContentLoaded', function() {
     attachModalEventListeners();
@@ -13,27 +17,68 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function attachModalEventListeners() {
-    
-    function openModal() {
-        modal.style.display = 'block';
-        modalOverlay.style.display = 'block';
-    }
+    openModalButtons.forEach(button => button.addEventListener('click', () => openModal(modal)));
 
-    
-    function closeModal() {
-        modal.style.display = 'none';
-        modalOverlay.style.display = 'none';
-    }
-
-    
-    openModalButtons.forEach(button => {
-        button.addEventListener('click', openModal);
-    });
-
-    
-    closeModalIcon.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', closeModal);
+    document.querySelector('#modal1 .close-modal').addEventListener('click', () => closeModal(modal));
+    document.querySelector('#modal2 .close-modal').addEventListener('click', () => closeModal(modal2));
+    document.querySelector('#modal2 .back-modal').addEventListener('click', returnToModal1);
 }
+
+function openModal(modal) {
+  modal.style.display = 'block';
+  modalOverlay.style.display = 'block';
+}
+
+function closeModal(modal) {
+  modal.style.display = 'none';
+  modalOverlay.style.display = 'none';
+  if (modal === modal2) { 
+      modal1.style.display = 'none';
+  }
+}
+
+function returnToModal1() {
+  closeModal(modal2);
+  openModal(modal1); 
+}
+
+addPhotoButton.addEventListener('click', function() {
+  modal.style.display = 'none';
+  openModal(modal2);
+});
+
+photoUploadInput.addEventListener('change', updateValidateButtonState);
+photoTitleInput.addEventListener('input', updateValidateButtonState);
+photoCategorySelect.addEventListener('change', updateValidateButtonState);
+
+function updateValidateButtonState() {
+  validateButton.disabled = !(photoUploadInput.files.length > 0 && photoTitleInput.value.trim() !== '' && photoCategorySelect.value.trim() !== '');
+}
+
+// Récupère les catégories depuis l'API et les ajoute au sélecteur de catégories
+async function addCategories() {
+  try {
+    const response = await fetch('http://localhost:5678/api/categories');
+    const categories = await response.json();
+
+    photoCategorySelect.innerHTML = '';
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    photoCategorySelect.appendChild(defaultOption);
+    
+    
+    categories.forEach(category => {
+      const option = document.createElement('option');
+      option.value = category.id;
+      option.textContent = category.name;
+      photoCategorySelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Erreur lors de la récupération des catégories:', error);
+  }
+}
+
+addCategories();
 
 // Fonction pour récupérer les oeuvres et les catégories depuis l'API
 async function getWorksAndCategories() {

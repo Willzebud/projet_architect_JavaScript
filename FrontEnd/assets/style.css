@@ -364,6 +364,12 @@ body header {
 	padding: 20px;;
 }
 
+.modal-content {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
 .modal, .modal-overlay {
 	display: none;
 }
@@ -376,7 +382,6 @@ body header {
   
 .fa-xmark {
 	position: absolute;
-	top: 20px;
 	right: 20px;
 	cursor: pointer;
 	color: #333;
@@ -388,6 +393,7 @@ body header {
 	display: grid;
   	grid-template-columns: repeat(5, 1fr);
   	grid-gap: 10px;
+	padding: 0 50px;
 }
   
 .modal-gallery img {
@@ -417,18 +423,28 @@ body header {
 	color: white;
 }
 
+.line-style {
+	margin-top: 50px;
+	height: 1px;
+	width: 420px;
+	background-color: #B3B3B3;
+}
+
 
 .add-photo-button{
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;
 	margin : 2em auto ;
-	width: 180px;
+	width: 237px;
 	text-align: center;
 	border-radius: 60px ;
+	height: 36px;
+	border: none;
 }
   
 .modal input[type="submit"] {
@@ -443,19 +459,132 @@ body header {
 	border-radius: 50px;
 	cursor: pointer;
 }
-  
-  
 .ligne-style {
 	border-top: 1px solid #eee;
 	margin: 20px 0;
-}
-  
-  
+} 
 .modal p {
 	text-align: center;
 	font-size: 1.2rem;
-	margin: 20px 0;
+	margin: 50px 0;
 }
+  
+#modal2 .modal-content .back-modal,
+#modal2 .modal-content .close-modal {
+	position: absolute;
+	top: 20px; 
+	cursor: pointer; 
+}
+  
+#modal2 .modal-content .back-modal {
+	left: 20px; 
+}
+  
+#modal2 .modal-content .close-modal {
+	right: 20px;
+}
+  
+#modal2 .modal-content p {
+	text-align: center;
+}
+
+#modal2 .info-texte {
+	font-size: 1rem;
+}
+
+#modal2 form {
+	display: flex;
+	flex-direction: column;
+}
+  
+#modal2 .add-photo-container {
+	width: 420px;
+	height: 169px;
+	text-align: center;
+	margin-bottom: 20px;
+	background-color: #E8F1F6;
+	justify-self: center;
+}
+
+.logo-image .fa-regular {
+	font-size: 70px;
+	color: #B9C5CC;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+  
+#modal2 .add-photo-container input[type="file"] {
+	display: none;
+}
+  
+#modal2 .add-photo-container label {
+	width: 173px;
+	margin: 0 auto;
+	padding: 10px 20px; 
+	background-color: #CBD6DC; 
+	border-radius: 50px;
+	cursor: pointer;
+}
+
+#info-texte {
+	font-size: 0.8rem;
+	margin-top: 15px;
+}
+  
+
+#modal2 label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+  
+#modal2 input[type="text"],
+#modal2 select {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+  
+#modal2 input[type="submit"] {
+	background-color: #ddd;
+	color: #aaa;
+}
+  
+#modal2 input[type="submit"]:enabled {
+	background-color: #1D6154;
+	color: white;
+	cursor: pointer;
+	font-family: 'Syne';
+	margin : 2em auto ;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+}
+
+#modal2 .validate-add-photo {
+    font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154; 
+    margin: 2em auto;
+    width: 237px;
+	height: 36px;
+    text-align: center;
+    border-radius: 60px;
+    border: none; 
+    cursor: pointer; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+#modal2 .validate-add-photo:disabled {
+    background-color: #ddd; 
+    color: #aaa; 
+    cursor: default; 
+}
+
+
 
 
 
