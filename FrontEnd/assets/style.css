@@ -498,12 +498,27 @@ body header {
 }
   
 #modal2 .add-photo-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: 420px;
 	height: 169px;
 	text-align: center;
 	margin-bottom: 20px;
 	background-color: #E8F1F6;
 	justify-self: center;
+}
+
+.photo-preview {
+	width: 129px;
+	height: 169px;
+	overflow: hidden;
+}
+
+.photo-preview img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .logo-image .fa-regular {
@@ -519,6 +534,7 @@ body header {
   
 #modal2 .add-photo-container label {
 	width: 173px;
+	height: 36px;
 	margin: 0 auto;
 	padding: 10px 20px; 
 	background-color: #CBD6DC; 
@@ -542,7 +558,9 @@ body header {
 #modal2 input[type="text"],
 #modal2 select {
 	height: 50px;
-	font-size: 1.2em;
+	font-family: 'Work Sans';
+	color: #444444;
+	font-weight: 400;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }

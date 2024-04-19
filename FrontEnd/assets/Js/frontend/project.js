@@ -16,46 +16,60 @@ document.addEventListener('DOMContentLoaded', function() {
     getWorksAndCategories();
 });
 
-function attachModalEventListeners() {
-    openModalButtons.forEach(button => button.addEventListener('click', () => openModal(modal)));
-
-    document.querySelector('#modal1 .close-modal').addEventListener('click', () => closeModal(modal));
-    document.querySelector('#modal2 .close-modal').addEventListener('click', () => closeModal(modal2));
-    document.querySelector('#modal2 .back-modal').addEventListener('click', returnToModal1);
-}
-
-function openModal(modal) {
-  modal.style.display = 'block';
-  modalOverlay.style.display = 'block';
-}
-
-function closeModal(modal) {
-  modal.style.display = 'none';
-  modalOverlay.style.display = 'none';
-  if (modal === modal2) { 
-      modal1.style.display = 'none';
+function toggleModal(modal, show = true) {
+  modal.style.display = show ? 'block' : 'none';
+  modalOverlay.style.display = show ? 'block' : 'none';
+  if (!show && modal === modal2) { 
+    modal1.style.display = 'none';
   }
 }
 
-function returnToModal1() {
-  closeModal(modal2);
-  openModal(modal1); 
+function attachModalEventListeners() {
+    openModalButtons.forEach(button => button.addEventListener('click', () => toggleModal(modal, true)));
+
+    document.querySelector('#modal1 .close-modal').addEventListener('click', () => toggleModal(modal, false));
+    document.querySelector('#modal2 .close-modal').addEventListener('click', () => toggleModal(modal2, false));
+    document.querySelector('#modal2 .back-modal').addEventListener('click', () => {
+        toggleModal(modal2, false);
+        toggleModal(modal1, true);
+    });
 }
 
 addPhotoButton.addEventListener('click', function() {
-  modal.style.display = 'none';
-  openModal(modal2);
+  toggleModal(modal, false); 
+  toggleModal(modal2, true);
 });
 
 photoUploadInput.addEventListener('change', updateValidateButtonState);
 photoTitleInput.addEventListener('input', updateValidateButtonState);
 photoCategorySelect.addEventListener('change', updateValidateButtonState);
 
+document.getElementById('photo-upload').addEventListener('change', function(event) {
+  const [file] = event.target.files;
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const photoPreview = document.getElementById('photo-preview');
+      photoPreview.innerHTML = ''; 
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = function() {
+        photoPreview.appendChild(img); 
+        
+        document.querySelector('.logo-image').style.display = 'none';
+        document.getElementById('photo-upload').style.display = 'none';
+        document.querySelector('.photo-upload-label').style.display = 'none';
+        document.getElementById('info-texte').style.display = 'none';
+      };
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
 function updateValidateButtonState() {
   validateButton.disabled = !(photoUploadInput.files.length > 0 && photoTitleInput.value.trim() !== '' && photoCategorySelect.value.trim() !== '');
 }
 
-// Récupère les catégories depuis l'API et les ajoute au sélecteur de catégories
 async function addCategories() {
   try {
     const response = await fetch('http://localhost:5678/api/categories');
@@ -79,57 +93,6 @@ async function addCategories() {
 }
 
 addCategories();
-
-// Fonction pour récupérer les oeuvres et les catégories depuis l'API
-async function getWorksAndCategories() {
-  try {
-      const responseWorks = await fetch('http://localhost:5678/api/works');
-      const works = await responseWorks.json();
-      worksArray = works;
-
-      displayWorksInGallery(worksArray, 'gallery-container');
-      displayWorksInGallery(worksArray, 'modal-gallery-container');
-
-      const responseCategories = await fetch('http://localhost:5678/api/categories');
-      const categoriesData = await responseCategories.json();
-      const categories = new Set(categoriesData.map(category => category.name));
-
-      createFilterMenu(categories);
-  } catch (error) {
-      console.error('Erreur lors de la récupération des données:', error);
-  }
-}
-
-// Fonction pour afficher les oeuvres dans une galerie donnée
-function displayWorksInGallery(works, containerId) {
-  const gallery = document.getElementById(containerId);
-  gallery.innerHTML = '';
-
-  works.forEach(work => {
-    const figure = document.createElement('figure');
-    figure.dataset.id = work.id;
-
-    const img = document.createElement('img');
-    img.src = work.imageUrl;
-    img.alt = work.title;
-    figure.appendChild(img);
-
-    if (containerId === 'modal-gallery-container') {
-      const deleteIconContainer = document.createElement('div');
-      deleteIconContainer.className = 'delete-icon-container';
-
-      const deleteIcon = document.createElement('i');
-      deleteIcon.className = 'fa-solid fa-trash-can';
-      deleteIcon.addEventListener('click', function() { deleteWork(work.id, figure); });
-
-      deleteIconContainer.appendChild(deleteIcon);
-      figure.appendChild(deleteIconContainer);
-    }
-
-    gallery.appendChild(figure);
-  });
-}
-
 
 async function deleteWork(workId, figureElement) {
   try {
@@ -159,6 +122,118 @@ async function deleteWork(workId, figureElement) {
       console.error('Erreur lors de la suppression', error);
   }
 }
+
+async function submitNewWork() {
+  const formData = new FormData();
+  formData.append('image', photoUploadInput.files[0]);
+  formData.append('title', photoTitleInput.value);
+  formData.append('category', photoCategorySelect.value);
+
+  for (var pair of formData.entries()) {
+    console.log(pair[0]+ ', ' + pair[1]); 
+  }
+
+  const token = localStorage.getItem('token');
+
+  try {
+      const response = await fetch('http://localhost:5678/api/works', {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${token}`
+          },
+          body: formData
+      }).catch((e) => {
+        console.log(e);
+      });
+
+      const responseData = await response.json();
+      console.log('API Response:', responseData);
+
+      debugger;
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      worksArray.push(responseData);
+      displayWorksInGallery(worksArray, 'gallery-container');
+      toggleModal(modal2, false); 
+
+      photoUploadInput.value = '';
+      photoTitleInput.value = '';
+      photoCategorySelect.selectedIndex = 0;
+      updateValidateButtonState();
+
+      alert('Projet ajouté avec succès!');
+  } catch (error) {
+      console.log(JSON.stringify(error));
+      console.error('Failed to submit new work:', error);
+  }
+}
+
+document.querySelector('#modal2 .validate-add-photo').addEventListener('click', function() {
+  if (!this.disabled) {
+      submitNewWork();
+  }
+});
+
+// Fonction pour récupérer les oeuvres et les catégories depuis l'API
+async function getWorksAndCategories() {
+  try {
+      const responseWorks = await fetch('http://localhost:5678/api/works');
+      const works = await responseWorks.json();
+      worksArray = works;
+
+      displayWorksInGallery(worksArray, 'gallery-container');
+      displayWorksInGallery(worksArray, 'modal-gallery-container');
+
+      const responseCategories = await fetch('http://localhost:5678/api/categories');
+      const categoriesData = await responseCategories.json();
+      const categories = new Set(categoriesData.map(category => category.name));
+
+      createFilterMenu(categories);
+  } catch (error) {
+      console.error('Erreur lors de la récupération des données:', error);
+  }
+}
+
+// Fonction pour afficher les oeuvres dans une galerie donnée
+function displayWorksInGallery(works, containerId) {
+  const gallery = document.getElementById(containerId);
+  gallery.innerHTML = '';  // Efface le contenu précédent
+
+  works.forEach(work => {
+      const figure = document.createElement('figure');
+      figure.dataset.id = work.id;
+
+      const img = document.createElement('img');
+      img.src = work.imageUrl;
+      img.alt = work.title;
+      figure.appendChild(img);
+
+      // Ajouter des titres uniquement pour la galerie de la page principale
+      if (containerId !== 'modal-gallery-container') {
+          const caption = document.createElement('figcaption');
+          caption.textContent = work.title;
+          figure.appendChild(caption);
+      }
+
+      if (containerId === 'modal-gallery-container') {
+          const deleteIconContainer = document.createElement('div');
+          deleteIconContainer.className = 'delete-icon-container';
+
+          const deleteIcon = document.createElement('i');
+          deleteIcon.className = 'fa-solid fa-trash-can';
+          deleteIcon.addEventListener('click', function() { deleteWork(work.id, figure); });
+
+          deleteIconContainer.appendChild(deleteIcon);
+          figure.appendChild(deleteIconContainer);
+      }
+
+      gallery.appendChild(figure);
+  });
+}
+
 
 // Fonction pour créer le menu de filtre
 function createFilterMenu(categories) {
