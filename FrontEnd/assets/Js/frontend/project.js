@@ -129,9 +129,6 @@ async function submitNewWork() {
   formData.append('title', photoTitleInput.value);
   formData.append('category', photoCategorySelect.value);
 
-  for (var pair of formData.entries()) {
-    console.log(pair[0]+ ', ' + pair[1]); 
-  }
 
   const token = localStorage.getItem('token');
 
@@ -147,9 +144,7 @@ async function submitNewWork() {
       });
 
       const responseData = await response.json();
-      console.log('API Response:', responseData);
-
-      debugger;
+    //  console.log('API Response:', responseData);
 
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -157,21 +152,26 @@ async function submitNewWork() {
 
       worksArray.push(responseData);
       displayWorksInGallery(worksArray, 'gallery-container');
+      displayWorksInGallery(worksArray, 'modal-gallery-container');
       toggleModal(modal2, false); 
 
-      photoUploadInput.value = '';
-      photoTitleInput.value = '';
-      photoCategorySelect.selectedIndex = 0;
+
+     photoUploadInput.value = '';
+     photoTitleInput.value = '';
+     photoCategorySelect.selectedIndex = 0;
+
       updateValidateButtonState();
 
-      alert('Projet ajouté avec succès!');
+   
   } catch (error) {
       console.log(JSON.stringify(error));
       console.error('Failed to submit new work:', error);
   }
+  
 }
 
-document.querySelector('#modal2 .validate-add-photo').addEventListener('click', function() {
+document.querySelector('#modal2 .validate-add-photo').addEventListener('click', function(e) {
+  e.preventDefault();
   if (!this.disabled) {
       submitNewWork();
   }
@@ -200,7 +200,7 @@ async function getWorksAndCategories() {
 // Fonction pour afficher les oeuvres dans une galerie donnée
 function displayWorksInGallery(works, containerId) {
   const gallery = document.getElementById(containerId);
-  gallery.innerHTML = '';  // Efface le contenu précédent
+  gallery.innerHTML = ''; 
 
   works.forEach(work => {
       const figure = document.createElement('figure');
@@ -240,20 +240,25 @@ function createFilterMenu(categories) {
   const filterMenu = document.getElementById('menu-filtres');
   filterMenu.innerHTML = '';
 
-  const boutonTous = document.createElement('button');
-  boutonTous.innerText = "Tous";
-  boutonTous.classList.add('style-menu', 'bouton-filtre');
-  boutonTous.addEventListener('click', (event) => filterProjectsCategorie("Tous", event));
-  filterMenu.appendChild(boutonTous);
+  const estConnecte = localStorage.getItem("estConnecte") === "true";
+  
+  if (!estConnecte) { 
+    const boutonTous = document.createElement('button');
+    boutonTous.innerText = "Tous";
+    boutonTous.classList.add('style-menu', 'bouton-filtre', 'bouton-filtre-actif');
+    boutonTous.addEventListener('click', (event) => filterProjectsCategorie("Tous", event));
+    filterMenu.appendChild(boutonTous);
 
-  categories.forEach(category => {
-    const bouton = document.createElement('button');
-    bouton.innerText = category;
-    bouton.classList.add('style-menu', 'bouton-filtre');
-    bouton.addEventListener('click', (event) => filterProjectsCategorie(category, event));
-    filterMenu.appendChild(bouton);
-  });
+    categories.forEach(category => {
+      const bouton = document.createElement('button');
+      bouton.innerText = category;
+      bouton.classList.add('style-menu', 'bouton-filtre');
+      bouton.addEventListener('click', (event) => filterProjectsCategorie(category, event));
+      filterMenu.appendChild(bouton);
+    });
+  }
 }
+
 
 // Fonction pour filtrer les projets par catégorie
 function filterProjectsCategorie(selectedCategory, event) {
