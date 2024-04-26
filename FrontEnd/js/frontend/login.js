@@ -41,8 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert('Veuillez entrer une adresse mail ou un mot de passe valide.');
             }
         });
-    } else {
-        console.log("Le formulaire de connexion n'existe pas sur cette page.");
     }
 });
 
