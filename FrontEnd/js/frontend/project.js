@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     getWorksAndCategories();
 });
 
+// Fonction pour gérer l'affichage de la modale et de l'overlay
 function toggleModal(modal, show = true) {
   modal.style.display = show ? 'block' : 'none';
   modalOverlay.style.display = show ? 'block' : 'none';
@@ -24,6 +25,7 @@ function toggleModal(modal, show = true) {
   }
 }
 
+// Écouteurs d'événements pour les interactions (retour, ouverture et fermeture) des modales
 function attachModalEventListeners() {
     openModalButtons.forEach(button => button.addEventListener('click', () => toggleModal(modal, true)));
 
@@ -35,15 +37,19 @@ function attachModalEventListeners() {
     });
 }
 
+
+// Écouteurs d'événements pour l'ouverture de la modal2
 addPhotoButton.addEventListener('click', function() {
   toggleModal(modal, false); 
   toggleModal(modal2, true);
 });
 
+// Écouteurs d'événements pour les 3 champs du formulaire d'ajout de projets (+ maj de l'état du bouton de validation)
 photoUploadInput.addEventListener('change', updateValidateButtonState);
 photoTitleInput.addEventListener('input', updateValidateButtonState);
 photoCategorySelect.addEventListener('change', updateValidateButtonState);
 
+// Affiche l'aperçu de la photo chargée et met à jour l'interface utilisateur
 document.getElementById('photo-upload').addEventListener('change', function(event) {
   const [file] = event.target.files;
   if (file) {
@@ -66,10 +72,12 @@ document.getElementById('photo-upload').addEventListener('change', function(even
   }
 });
 
+// Fonction qui met à jour l'état activé/désactivé du bouton de validation
 function updateValidateButtonState() {
   validateButton.disabled = !(photoUploadInput.files.length > 0 && photoTitleInput.value.trim() !== '' && photoCategorySelect.value.trim() !== '');
 }
 
+// Fonction qui récupère les catégories depuis l'API pour les générer dans le menu déroulant du champ du formulaire Ajout Projet
 async function addCategories() {
   try {
     const response = await fetch('http://localhost:5678/api/categories');
@@ -94,6 +102,8 @@ async function addCategories() {
 
 addCategories();
 
+
+// Fonction qui supprime une œuvre avec une requête DELETE et met à jour l'affichage
 async function deleteWork(workId, figureElement) {
   try {
       const token = localStorage.getItem('token');
@@ -123,6 +133,7 @@ async function deleteWork(workId, figureElement) {
   }
 }
 
+// Fonction qui soumet un nouveau projet avec une requête POST et met à jour l'affichage
 async function submitNewWork() {
   const formData = new FormData();
   formData.append('image', photoUploadInput.files[0]);
@@ -144,7 +155,7 @@ async function submitNewWork() {
       });
 
       const responseData = await response.json();
-    //  console.log('API Response:', responseData);
+    
 
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -211,7 +222,6 @@ function displayWorksInGallery(works, containerId) {
       img.alt = work.title;
       figure.appendChild(img);
 
-      // Ajouter des titres uniquement pour la galerie de la page principale
       if (containerId !== 'modal-gallery-container') {
           const caption = document.createElement('figcaption');
           caption.textContent = work.title;
@@ -233,7 +243,6 @@ function displayWorksInGallery(works, containerId) {
       gallery.appendChild(figure);
   });
 }
-
 
 // Fonction pour créer le menu de filtre
 function createFilterMenu(categories) {
@@ -258,7 +267,6 @@ function createFilterMenu(categories) {
     });
   }
 }
-
 
 // Fonction pour filtrer les projets par catégorie
 function filterProjectsCategorie(selectedCategory, event) {
